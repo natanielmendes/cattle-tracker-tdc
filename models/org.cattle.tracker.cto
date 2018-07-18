@@ -22,8 +22,22 @@ asset Animal identified by rfid {
     o String rfid
     o Double scale
     o Double weight
+    o DateTime birthday
+    o Vaccine[] vaccines
+    o Metric[] metrics
     o CattleStatus status default="FOR_SALE"
     --> Company owner
+}
+
+concept Metric {
+  o Double scale
+  o Double weight
+  o DateTime date
+}
+
+enum Vaccine {
+  o YELLOW_FEVER
+  o BRUCELLOSIS
 }
 
 enum CattleStatus {
@@ -31,13 +45,8 @@ enum CattleStatus {
   o SOLD
 }
 
-asset AnimalBatch identified by batchId{
+asset Batch identified by batchId{
   o String batchId
-  --> Animal[] animals
-}
-
-transaction AddAnimalToBatch {
-  --> AnimalBatch batch
   --> Animal[] animals
 }
 
@@ -45,15 +54,15 @@ asset Contract identified by contractId {
   o String contractId
   --> Company farm
   --> Company fridge
-  --> AnimalBatch batch
+  --> Batch batch
   o String gtaNumber
   o DateTime createdAt
 }
 
-transaction createContract {
+transaction CreateContract {
   --> Company farm
   --> Company fridge
-  --> AnimalBatch batch
+  --> Animal[] animals
   o String gtaNumber
 }
 
@@ -113,6 +122,12 @@ event CompanyAdded {
   o String companyId
   o String companyFantasyName
   o String email
+}
+
+transaction EditAnimal {
+  --> Animal animal
+  o Double newWeight
+  o Double newScale
 }
 
 transaction Bootstrap{

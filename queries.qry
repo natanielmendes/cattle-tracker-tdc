@@ -2,9 +2,9 @@
  * Named queries
  **/
 
-query AnimalsByBatch {
-  description: "Returns all animals in the registry"
-  statement:  
-    SELECT  org.cattle.tracker.AnimalBatch
-    WHERE   (batchId == _$batch_id)
-}
+// query AnimalsByBatch {
+//   description: "Returns all animals in the registry"
+//   statement:  
+//     SELECT  org.cattle.tracker.AnimalBatch
+//     WHERE   (batchId == _$batch_id)
+// }
