@@ -66,14 +66,13 @@ event TransferAnimalEvent {
 
 enum CattleStatus {
   o ALIVE 
-  o CUTTING
+  o FRIDGE
   o SHIPPING
-  o SHIPPED
 }
 
 enum CompanyType {
   o FARM 
-  o SLAUGHTERHOUSE
+  o FRIDGE
 }
 
 transaction CreateAnimal {
