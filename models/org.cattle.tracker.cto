@@ -63,7 +63,6 @@ transaction CreateContract {
   --> Company farm
   --> Company fridge
   --> Animal[] animals
-  o String gtaNumber
 }
 
 participant Company identified by companyId {
@@ -97,14 +96,14 @@ event TransferAnimalEvent {
 
 transaction CreateAnimal {
     o String rfid
-    o String scale
+    o Double scale
     o Double weight
     --> Company owner
 }
 
 event AnimalAdded {
   o String rfid
-  o String scale
+  o Double scale
   o Double weight
   --> Company owner
 }
