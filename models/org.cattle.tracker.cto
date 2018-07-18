@@ -20,28 +20,20 @@ namespace org.cattle.tracker
 
 asset Animal identified by rfid {
     o String rfid
-    o String description
+    o Double scaleCm
     o Double weight
     o CattleStatus status default="ALIVE"  
     --> Company owner optional
 }
 
-asset Box identified by rfid {
-    o String rfid
-    --> Company owner optional
+asset AnimalBatch identified by batchId{
+  o String batchId
+  --> Animal[] animals
 }
 
-abstract asset Batch identified by batchId {
-    o String batchId
-    --> Company owner optional
-}
-
-asset AnimalBatch extends Batch {
-  o String[] animalRfid
-}
-
-asset BoxBatch extends Batch {
-  o String[] boxRfid
+transaction AddAnimalToBatch {
+  --> AnimalBatch batch
+  --> Animal[] animals
 }
 
 participant Company identified by companyId {
@@ -82,7 +74,6 @@ enum CattleStatus {
 enum CompanyType {
   o FARM 
   o SLAUGHTERHOUSE
-  o SHIPPING
 }
 
 transaction CreateAnimal {
