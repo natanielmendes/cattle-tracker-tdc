@@ -47,14 +47,14 @@ enum CattleStatus {
 
 asset Batch identified by batchId{
   o String batchId
-  --> Animal[] animals
+  o Animal[] animals
 }
 
 asset Contract identified by contractId {
   o String contractId
-  --> Company farm
-  --> Company fridge
-  --> Batch batch
+  o Company farm
+  o Company fridge
+  o Batch batch
   o String gtaNumber
   o DateTime createdAt
 }
