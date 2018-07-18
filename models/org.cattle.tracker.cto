@@ -22,13 +22,13 @@ asset Animal identified by rfid {
     o String rfid
     o Double scale
     o Double weight
+    o CattleStatus status default="FOR_SALE"
     --> Company owner
 }
 
 enum CattleStatus {
-  o ALIVE 
-  o FRIDGE
-  o SHIPPING
+  o FOR_SALE 
+  o SOLD
 }
 
 asset AnimalBatch identified by batchId{
@@ -60,8 +60,7 @@ transaction createContract {
 participant Company identified by companyId {
   o String companyId
   o String name
-  o String cnpj 
-  o String email optional
+  o String cnpj
   o Address address optional
   o CompanyType companyType
 }
@@ -96,10 +95,9 @@ transaction CreateAnimal {
 
 event AnimalAdded {
   o String rfid
-  o String description
+  o String scale
   o Double weight
-  o CattleStatus status
-  --> Company owner optional
+  --> Company owner
 }
 
 transaction CreateCompany {
@@ -115,4 +113,8 @@ event CompanyAdded {
   o String companyId
   o String companyFantasyName
   o String email
+}
+
+transaction Bootstrap{
+
 }
