@@ -20,10 +20,15 @@ namespace org.cattle.tracker
 
 asset Animal identified by rfid {
     o String rfid
-    o Double scaleCm
+    o Double scale
     o Double weight
-    o CattleStatus status default="ALIVE"  
-    --> Company owner optional
+    --> Company owner
+}
+
+enum CattleStatus {
+  o ALIVE 
+  o FRIDGE
+  o SHIPPING
 }
 
 asset AnimalBatch identified by batchId{
@@ -36,21 +41,39 @@ transaction AddAnimalToBatch {
   --> Animal[] animals
 }
 
+asset Contract identified by contractId {
+  o String contractId
+  --> Company farm
+  --> Company fridge
+  --> AnimalBatch batch
+  o String gtaNumber
+  o DateTime createdAt
+}
+
+transaction createContract {
+  --> Company farm
+  --> Company fridge
+  --> AnimalBatch batch
+  o String gtaNumber
+}
+
 participant Company identified by companyId {
   o String companyId
   o String name
-  o String fantasyName
-  o String cnpj optional 
+  o String cnpj 
   o String email optional
   o Address address optional
   o CompanyType companyType
 }
 
+enum CompanyType {
+  o FARM 
+  o FRIDGE
+}
+
 concept Address {
   o String city optional
   o String country optional
-  o String street optional
-  o String zip optional
 }
 
 transaction TransferAnimal {
@@ -64,23 +87,11 @@ event TransferAnimalEvent {
   o String newOwerFantasyName
 }
 
-enum CattleStatus {
-  o ALIVE 
-  o FRIDGE
-  o SHIPPING
-}
-
-enum CompanyType {
-  o FARM 
-  o FRIDGE
-}
-
 transaction CreateAnimal {
     o String rfid
-    o String description
+    o String scale
     o Double weight
-    o CattleStatus status default="ALIVE"  
-    --> Company owner optional
+    --> Company owner
 }
 
 event AnimalAdded {
@@ -94,8 +105,7 @@ event AnimalAdded {
 transaction CreateCompany {
   o String companyId
   o String companyName
-  o String companyFantasyName
-  o String cnpj optional 
+  o String cnpj 
   o String email optional
   o Address address optional
   o CompanyType companyType

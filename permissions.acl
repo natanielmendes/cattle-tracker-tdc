@@ -18,7 +18,7 @@
 rule EverybodyCanDoEverything {
     description: "Allow all participants read access to all resources"
     participant: "org.cattle.tracker.**"
-    operation: CREATE, READ, DELETE, UPDATE
+    operation: ALL
     resource: "org.cattle.tracker.**"
     action: ALLOW
 }
