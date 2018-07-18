@@ -1,0 +1,118 @@
+/*
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/**
+ * Write your model definitions here
+ */
+
+namespace org.cattle.tracker
+
+asset Animal identified by rfid {
+    o String rfid
+    o String description
+    o Double weight
+    o CattleStatus status default="ALIVE"  
+    --> Company owner optional
+}
+
+asset Box identified by rfid {
+    o String rfid
+    --> Company owner optional
+}
+
+abstract asset Batch identified by batchId {
+    o String batchId
+    --> Company owner optional
+}
+
+asset AnimalBatch extends Batch {
+  o String[] animalRfid
+}
+
+asset BoxBatch extends Batch {
+  o String[] boxRfid
+}
+
+participant Company identified by companyId {
+  o String companyId
+  o String name
+  o String fantasyName
+  o String cnpj optional 
+  o String email optional
+  o Address address optional
+  o CompanyType companyType
+}
+
+concept Address {
+  o String city optional
+  o String country optional
+  o String street optional
+  o String zip optional
+}
+
+transaction TransferAnimal {
+  --> Animal animal
+  --> Company newOwner
+}
+
+event TransferAnimalEvent {
+  --> Animal animal
+  o String oldOwnerFantasyName
+  o String newOwerFantasyName
+}
+
+enum CattleStatus {
+  o ALIVE 
+  o CUTTING
+  o SHIPPING
+  o SHIPPED
+}
+
+enum CompanyType {
+  o FARM 
+  o SLAUGHTERHOUSE
+  o SHIPPING
+}
+
+transaction CreateAnimal {
+    o String rfid
+    o String description
+    o Double weight
+    o CattleStatus status default="ALIVE"  
+    --> Company owner optional
+}
+
+event AnimalAdded {
+  o String rfid
+  o String description
+  o Double weight
+  o CattleStatus status
+  --> Company owner optional
+}
+
+transaction CreateCompany {
+  o String companyId
+  o String companyName
+  o String companyFantasyName
+  o String cnpj optional 
+  o String email optional
+  o Address address optional
+  o CompanyType companyType
+}
+
+event CompanyAdded {
+  o String companyId
+  o String companyFantasyName
+  o String email
+}
