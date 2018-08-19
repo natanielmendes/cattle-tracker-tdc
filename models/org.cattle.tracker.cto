@@ -20,37 +20,67 @@ namespace org.cattle.tracker
 
 asset Animal identified by rfid {
     o String rfid
-    o Double scaleCm
+    o Double scale
     o Double weight
-    o CattleStatus status default="ALIVE"  
-    --> Company owner optional
+    o DateTime birthday
+    o Vaccine[] vaccines
+    o Metric[] metrics
+    o CattleStatus status default="FOR_SALE"
+    --> Company owner
 }
 
-asset AnimalBatch identified by batchId{
+concept Metric {
+  o Double scale
+  o Double weight
+  o DateTime date
+}
+
+enum Vaccine {
+  o YELLOW_FEVER
+  o BRUCELLOSIS
+}
+
+enum CattleStatus {
+  o FOR_SALE 
+  o SOLD
+}
+
+asset Batch identified by batchId{
   o String batchId
-  --> Animal[] animals
+  o Animal[] animals
 }
 
-transaction AddAnimalToBatch {
-  --> AnimalBatch batch
+asset Contract identified by contractId {
+  o String contractId
+  o Company farm
+  o Company fridge
+  o Batch batch
+  o String gtaNumber
+  o DateTime createdAt
+}
+
+transaction CreateContract {
+  --> Company farm
+  --> Company fridge
   --> Animal[] animals
 }
 
 participant Company identified by companyId {
   o String companyId
   o String name
-  o String fantasyName
-  o String cnpj optional 
-  o String email optional
+  o String cnpj
   o Address address optional
   o CompanyType companyType
+}
+
+enum CompanyType {
+  o FARM 
+  o FRIDGE
 }
 
 concept Address {
   o String city optional
   o String country optional
-  o String street optional
-  o String zip optional
 }
 
 transaction TransferAnimal {
@@ -64,38 +94,24 @@ event TransferAnimalEvent {
   o String newOwerFantasyName
 }
 
-enum CattleStatus {
-  o ALIVE 
-  o FRIDGE
-  o SHIPPING
-}
-
-enum CompanyType {
-  o FARM 
-  o FRIDGE
-}
-
 transaction CreateAnimal {
     o String rfid
-    o String description
+    o Double scale
     o Double weight
-    o CattleStatus status default="ALIVE"  
-    --> Company owner optional
+    --> Company owner
 }
 
 event AnimalAdded {
   o String rfid
-  o String description
+  o Double scale
   o Double weight
-  o CattleStatus status
-  --> Company owner optional
+  --> Company owner
 }
 
 transaction CreateCompany {
   o String companyId
   o String companyName
-  o String companyFantasyName
-  o String cnpj optional 
+  o String cnpj 
   o String email optional
   o Address address optional
   o CompanyType companyType
@@ -105,4 +121,14 @@ event CompanyAdded {
   o String companyId
   o String companyFantasyName
   o String email
+}
+
+transaction EditAnimal {
+  --> Animal animal
+  o Double newWeight
+  o Double newScale
+}
+
+transaction Bootstrap{
+
 }
