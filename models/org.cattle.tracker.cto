@@ -132,3 +132,7 @@ transaction EditAnimal {
 transaction Bootstrap{
 
 }
+
+transaction Clear{
+
+}
